@@ -6,6 +6,6 @@ before_install:
     - cd twitter-filter-service
    
 deploy:
-    provide: gae
-    keyfile: twitter-filter-service-8e43381e4d9e.json
+    provider: gae
+    keyfile: client-secret.json
     project: twitter-filter-service
