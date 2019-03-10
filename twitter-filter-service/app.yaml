@@ -1,6 +1,5 @@
 runtime: java
 env: flex
-service:
-   service_name: twitter-filter-service
+service: twitter-filter-service
 runtime_config:
    jdk: openjdk8  
