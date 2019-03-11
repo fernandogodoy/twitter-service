@@ -10,7 +10,3 @@ deploy:
     branch: master
   api_key:
     secure: ${HEROKU_API_KEY}
-notifications:
-  email:
-    on_success: never
-    on_failure: never
