@@ -6,5 +6,5 @@ deploy:
   jdk:
   - oraclejdk8
   app: twitter-filter-service
-  api-key:
-    secure: "$HEROKU_API_KEY"
+  api_key:
+    secure: g2b6aDYDjumEAmZpMgaN2W+lW4Bx3EbSLWo2mhg4Uc7ImmYhDy1jffii2OJkJoCCcW38GgwLxTsymF+ZHuQbpdMIxF82AObwa+9sxsKzAFmndUNCclxDNgh2n30eQ6NcItHf1hABdLfXz9flhtQY3tOi3TdgtrRP1+WmGs+/ysa4BGMntJBIXqcfcrPse5ajVYpeSOgJH45lZRmPJ2oUH1JDwWLPfQVIog4w+1Veb9Or3tRyQBspCdb63iLqZWtCR07+pGkapKdx8WYx4+6C1uHyBMUvL18uvRHNSoctTN9RTceuGWmFmOjPborXn7gIlvsab+pP/vcO7Je1mxmmEKk57CkdDHpALgzx9hV9MWqO3w1riXc3rTkqiA0HufAudrQD8Bd3F3ksM/+QdLmPFB8SAM3VVTDadBPoGzrCkY7j2t0Ycitbv54GPf1Czl2/KL/hKrqkVJ0OKQKjtsHTTb5NQI3BW/5hEaX1VGo9QOGp7jngNAfUf1Pb6vrjWJKrkko8KP1aWD6F16djvKUgzWF2e20WjSEIs4IOqpWC8LN5Oqk+2NMqsGWOFpBEKFe+ymABnn9r/4RZc7z5tsQbRAR9fp83KBHDPKK3fvEFTV5TxGen049KmDn5VL/Bao5vhuoSwxz3N4EjGPmqXNPad0YSd/RC7IyuB/Eyawl0jw8=
