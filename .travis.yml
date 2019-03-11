@@ -6,7 +6,5 @@ deploy:
   jdk:
   - oraclejdk8
   app: twitter-filter-service
-    on:
-    branch: master
   api_key:
     secure: ${HEROKU_API_KEY}
