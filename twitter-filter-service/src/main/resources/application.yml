@@ -1,9 +1,11 @@
+port: 8080
+
 spring:
    application:
       name: twitter-filter-service
    server:
-port: 8080
 
 twitter:
    consumerKey: EG8GNL0nP2LWW38FqDZN8UBJo 
    consumerSecret: P0lBGq1POMXXvWEn5IBgO3FimdTRtr9ywYgvVm0AIwcJrhIK2U
+   default-hashtags: openbanking, apifirst, devops, cloudfirst, microservices, apigateway, oauth, swagger, raml, openapis

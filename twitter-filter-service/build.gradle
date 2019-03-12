@@ -13,6 +13,7 @@ ext{
 	springSocialTwitter = '1.1.0.RELEASE'
 	junitVersion = '5.4.0'
 	lombokVersion = '1.18.6'
+	hsqlDBVersion = '2.4.1'
 }
 
 apply plugin: 'java'
@@ -27,13 +28,25 @@ dependencies {
 	compileOnly("org.projectlombok:lombok:${lombokVersion}")
 
 	compile("org.springframework.boot:spring-boot-starter-web")
+	compile("org.springframework.boot:spring-boot-starter-logging")
+	compile("org.springframework.boot:spring-boot-starter-data-jpa")
 	compile("org.springframework.social:spring-social-twitter:${springSocialTwitter}")
 	compile("org.springframework.social:spring-social-web:${springSocialTwitter}")
 	compile("org.springframework.social:spring-social-security:${springSocialVersion}")
+	compile("org.apache.commons:commons-lang3:3.8.1")
+	
+	
+	compile("org.modelmapper:modelmapper:2.3.2")
+	compile("org.postgresql:postgresql:9.4-1200-jdbc41") 
 
     testCompile("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 	testCompile("org.springframework.boot:spring-boot-starter-test")
+	
+	testCompile("org.hsqldb:hsqldb:${hsqlDBVersion}")
+	testCompile("com.github.javafaker:javafaker:0.17.2")
+	
+	
 }
 
 repositories {
