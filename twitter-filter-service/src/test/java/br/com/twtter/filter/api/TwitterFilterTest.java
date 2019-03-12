@@ -1,4 +1,4 @@
-package br.com.twtter.filter.config;
+package br.com.twtter.filter.api;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -24,8 +24,8 @@ class TwitterFilterTest {
 
 	@Test
 	void shouldReturnTwitters() {
-		SearchResults searchResults = twitterFilter.searchOperations().search("#Openbanking", 100);
-		assertThat(searchResults.getTweets().size(), equalTo(100));
+		SearchResults searchResults = twitterFilter.searchOperations().search("#Openbanking", 5);
+		assertThat(searchResults.getTweets().size(), equalTo(5));
 	}
 
 }
