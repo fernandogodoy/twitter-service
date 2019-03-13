@@ -23,7 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import br.com.twtter.filter.controller.HashtagController;
-import br.com.twtter.filter.dto.HashtagDTO;
+import br.com.twtter.filter.dto.HashtagResponseDTO;
 import br.com.twtter.filter.service.HashtagService;
 
 @AutoConfigureMockMvc
@@ -41,7 +41,7 @@ class HashtagControllerTest {
 
 	@Test
 	void shouldReturnHashtags() throws Exception {
-		given(service.findAll()).willReturn(Arrays.asList(new HashtagDTO(1L, "openbanking"), new HashtagDTO(2L, "openAPI")));
+		given(service.findAll()).willReturn(Arrays.asList(new HashtagResponseDTO(1L, "openbanking"), new HashtagResponseDTO(2L, "openAPI")));
 
 		mvc.perform(get("/hashtag/list")
 				.contentType(MediaType.APPLICATION_JSON))
@@ -53,7 +53,7 @@ class HashtagControllerTest {
 	
 	@Test
 	void shouldSaveNewHashTag() throws Exception {
-		given(service.save(ArgumentMatchers.anyString())).willReturn(new HashtagDTO(1L, "openbanking"));
+		given(service.save(ArgumentMatchers.anyString())).willReturn(new HashtagResponseDTO(1L, "openbanking"));
 
 		mvc.perform(post("/hashtag/save")
 				.contentType(MediaType.APPLICATION_JSON)
