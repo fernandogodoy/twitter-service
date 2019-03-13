@@ -3,13 +3,13 @@ package br.com.twtter.filter.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.twtter.filter.dto.HashtagDTO;
 import br.com.twtter.filter.entity.Hashtag;
 import br.com.twtter.filter.repository.HashtagRepository;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -18,6 +18,7 @@ import br.com.twtter.filter.repository.HashtagRepository;
  */
 
 @Service
+@Slf4j
 public class HashtagService {
 
 	@Autowired
@@ -30,11 +31,14 @@ public class HashtagService {
 	}
 
 	public HashtagDTO save(String hashtag) {
-		Hashtag tag = Hashtag.builder()
-				.hashTag(hashtag.replace("#", StringUtils.EMPTY))
-				.build();
+		Hashtag tag = Hashtag.builder().hashTag(hashtag).build();
 		Hashtag saved = repository.consistenceSave(tag);
 		return new HashtagDTO(saved.getId(), saved.getHashTag());
+	}
+
+	public void deleteAll() {
+		log.info("Quantidade de hashtags sendo removidas" + repository.count());
+		repository.deleteAll();
 	}
 
 }

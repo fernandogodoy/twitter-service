@@ -46,8 +46,8 @@ class HashtagControllerTest {
 		mvc.perform(get("/hashtag/list")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andDo(print())
-				.andExpect(jsonPath("[0].hashtag", equalTo("openbanking")))
-				.andExpect(jsonPath("[1].hashtag", equalTo("openAPI")));
+				.andExpect(jsonPath("[0].value", equalTo("openbanking")))
+				.andExpect(jsonPath("[1].value", equalTo("openAPI")));
 	}
 
 	
@@ -60,7 +60,7 @@ class HashtagControllerTest {
 				.accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
 				.content("#openBanking"))
 				.andDo(print())
-				.andExpect(jsonPath("hashtag", equalTo("openbanking")))
+				.andExpect(jsonPath("value", equalTo("openbanking")))
 				.andExpect(jsonPath("id", equalTo(1)));
 	}
 }
