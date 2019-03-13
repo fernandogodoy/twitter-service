@@ -16,6 +16,6 @@ public class HashtagDTO {
 
 	private Long id;
 	
-	public String value;
+	private String value;
 
 }
