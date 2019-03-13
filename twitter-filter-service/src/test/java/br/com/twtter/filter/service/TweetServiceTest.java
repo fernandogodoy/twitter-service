@@ -61,9 +61,7 @@ class TweetServiceTest {
 		br.com.twtter.filter.entity.Tweet tweetEntity = mapper.toEntity(tweet);
 		tweetEntity.setId(1l);
 		
-		given(hashtagRepository.findAll()).willReturn(Arrays.asList(Hashtag.builder()
-				.hashTag("Valor")
-				.build()));
+		given(hashtagRepository.findAll()).willReturn(Arrays.asList(new Hashtag("Valor")));
 
 		given(twitterApi.searchOperations()).willReturn(searchOperation);
 		given(tweetRepository.findByHashtag(ArgumentMatchers.any())).willReturn(Arrays.asList(tweetEntity));

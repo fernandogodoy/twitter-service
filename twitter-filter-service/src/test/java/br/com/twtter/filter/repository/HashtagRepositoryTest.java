@@ -24,10 +24,7 @@ class HashtagRepositoryTest extends AbstractRepositoryContext {
 
 	@BeforeEach
 	public void init() {
-		hashTag = Hashtag.builder()
-				.hashTag("default")
-				.tweet(Tweet.builder().id(2L).build())
-				.build();
+		hashTag = new Hashtag("default", Tweet.builder().id(2L).build());
 	}
 
 	@AfterEach
@@ -47,9 +44,7 @@ class HashtagRepositoryTest extends AbstractRepositoryContext {
 	void shouldConsistenceSaveHashtag() {
 		repository.save(hashTag);
 
-		Hashtag newHashTag = Hashtag.builder()
-				.hashTag("default")
-				.build();
+		Hashtag newHashTag = new Hashtag("default");
 
 		repository.consistenceSave(newHashTag);
 		long counted = repository.count();
