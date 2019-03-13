@@ -31,8 +31,7 @@ public class HashtagService {
 	}
 
 	public HashtagDTO save(String hashtag) {
-		Hashtag tag = Hashtag.builder().hashTag(hashtag).build();
-		Hashtag saved = repository.consistenceSave(tag);
+		Hashtag saved = repository.consistenceSave(new Hashtag(hashtag));
 		return new HashtagDTO(saved.getId(), saved.getHashTag());
 	}
 

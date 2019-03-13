@@ -1,5 +1,7 @@
 package br.com.twtter.filter.entity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -14,11 +16,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Singular;
 
 /**
  * 
@@ -28,7 +28,6 @@ import lombok.Singular;
 
 @Getter
 @Entity
-@Builder
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = "tweets")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,9 +41,22 @@ public class Hashtag implements BaseEntity {
 
 	private String hashTag;
 
-	@Singular
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Tweet.class, mappedBy = "hashtag")
-	private List<Tweet> tweets;
+	private List<Tweet> tweets = new ArrayList<>();
+
+	public Hashtag(String hashtag) {
+		this.hashTag = hashtag;
+	}
+
+	public Hashtag(String hashtag, List<Tweet> tweets) {
+		this.hashTag = hashtag;
+		this.tweets = tweets;
+	}
+
+	public Hashtag(String hashtag, Tweet tweet) {
+		this.hashTag = hashtag;
+		this.tweets = Arrays.asList(tweet);
+	}
 
 	@Override
 	public String toString() {
