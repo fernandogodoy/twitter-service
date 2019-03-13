@@ -18,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -28,6 +29,7 @@ import br.com.twtter.filter.service.HashtagService;
 @AutoConfigureMockMvc
 @EnableAutoConfiguration
 @ExtendWith(SpringExtension.class)
+@ActiveProfiles("test")
 @SpringBootTest(classes = HashtagController.class)
 class HashtagControllerTest {
 
@@ -55,7 +57,8 @@ class HashtagControllerTest {
 
 		mvc.perform(post("/hashtag/save")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("openBanking"))
+				.accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
+				.content("#openBanking"))
 				.andDo(print())
 				.andExpect(jsonPath("hashtag", equalTo("openbanking")))
 				.andExpect(jsonPath("id", equalTo(1)));

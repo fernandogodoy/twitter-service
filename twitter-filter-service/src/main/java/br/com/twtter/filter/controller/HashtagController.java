@@ -35,7 +35,7 @@ public class HashtagController {
 		return ResponseEntity.ok(service.findAll());
 	}
 	
-	@PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<HashtagDTO> save(@RequestBody String hashtag) {
 		log.info("Incluindo hashtag");
 		return ResponseEntity.ok(service.save(hashtag));

@@ -25,7 +25,7 @@ public class HashtagService {
 
 	public List<HashtagDTO> findAll() {
 		return repository.findAll().stream()
-				.map(hashtag -> new HashtagDTO(hashtag.getId(), hashtag.getFormatedHashTag()))
+				.map(hashtag -> new HashtagDTO(hashtag.getId(), hashtag.getHashTag()))
 				.collect(Collectors.toList());
 	}
 
@@ -34,7 +34,7 @@ public class HashtagService {
 				.hashTag(hashtag.replace("#", StringUtils.EMPTY))
 				.build();
 		Hashtag saved = repository.consistenceSave(tag);
-		return new HashtagDTO(saved.getId(), saved.getFormatedHashTag());
+		return new HashtagDTO(saved.getId(), saved.getHashTag());
 	}
 
 }
