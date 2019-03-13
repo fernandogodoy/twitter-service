@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class HashtagDTO {
+public class HashtagResponseDTO {
 
 	private Long id;
 	

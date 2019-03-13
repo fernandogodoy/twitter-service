@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.twtter.filter.dto.HashtagDTO;
+import br.com.twtter.filter.dto.HashtagRequestTDTO;
+import br.com.twtter.filter.dto.HashtagResponseDTO;
 import br.com.twtter.filter.service.HashtagService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,15 +32,15 @@ public class HashtagController {
 	private HashtagService service;
 
 	@GetMapping(path = "/list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<List<HashtagDTO>> findHashtags() {
+	public ResponseEntity<List<HashtagResponseDTO>> findHashtags() {
 		log.info("Listando hashtags");
 		return ResponseEntity.ok(service.findAll());
 	}
 	
 	@PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<HashtagDTO> save(@RequestBody String hashtag) {
+	public ResponseEntity<HashtagResponseDTO> save(@RequestBody HashtagRequestTDTO dto) {
 		log.info("Incluindo hashtag");
-		return ResponseEntity.ok(service.save(hashtag));
+		return ResponseEntity.ok(service.save(dto.getHashtag()));
 	}
 	
 	@DeleteMapping(path = "/delete")
