@@ -46,10 +46,6 @@ public class Hashtag implements BaseEntity {
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Tweet.class, mappedBy = "hashtag")
 	private List<Tweet> tweets;
 
-	public String getFormatedHashTag() {
-		return String.format("#%s", hashTag.toLowerCase());
-	}
-
 	@Override
 	public String toString() {
 		ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.JSON_STYLE);

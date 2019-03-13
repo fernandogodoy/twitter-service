@@ -43,13 +43,13 @@ public class TweetService {
 	@Autowired
 	private TweetRepository twitterRepository;
 
-	@Scheduled(fixedRate = 60000)
+	@Scheduled(fixedRate = 3600000)
 	public void loadTwitters() {
 		log.info("Iniciando busca por novos tweets");
 
 		List<Hashtag> hashTags = hashTagRepository.findAll();
 		log.info("HashTags: " + hashTags.stream()
-				.map(Hashtag::getFormatedHashTag)
+				.map(Hashtag::getHashTag)
 				.map(Objects::toString)
 				.collect(Collectors.joining(", ")));
 
@@ -72,7 +72,7 @@ public class TweetService {
 	private Set<Tweet> getTeets(List<Hashtag> hashTags) {
 		Set<Tweet> tweets = new HashSet<>();
 		hashTags.forEach(hashtag -> {
-			twitterApi.searchOperations().search(hashtag.getFormatedHashTag(), 100)
+			twitterApi.searchOperations().search("#" + hashtag.getHashTag(), 100)
 					.getTweets()
 					.forEach(tweet -> tweets.add(mapper.toEntity(tweet, hashtag)));
 		});
