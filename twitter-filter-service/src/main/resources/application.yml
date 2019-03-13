@@ -1,9 +1,11 @@
-port: 8080
+server:
+   port: 8080
 
 spring:
    application:
       name: twitter-filter-service
    datasource:
+      driverClassName: org.postgresql.Driver
       url: ${DATABASE_URL}
       username: ${DATABASE_USERNAME}
       password: ${DATABASE_PASSWORD}
