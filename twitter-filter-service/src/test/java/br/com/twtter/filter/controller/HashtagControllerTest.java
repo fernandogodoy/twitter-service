@@ -58,7 +58,7 @@ class HashtagControllerTest {
 		mvc.perform(post("/hashtag/save")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
-				.content("#openBanking"))
+				.content("{\"hashtag\": \"openBanking\"}"))
 				.andDo(print())
 				.andExpect(jsonPath("value", equalTo("openbanking")))
 				.andExpect(jsonPath("id", equalTo(1)));
