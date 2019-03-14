@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.twtter.filter.dto.TopUserFollowerCountDTO;
 import br.com.twtter.filter.dto.TweetDTO;
 import br.com.twtter.filter.service.TweetService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,4 +33,9 @@ public class TweetController {
 		return ResponseEntity.ok(service.findAll());
 	}
 
+	@GetMapping(path = "/user-followers-count/top-5", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<TopUserFollowerCountDTO>> findTop5UserFollower() {
+		log.info("Listando 5 usuarios com mais seguidores");
+		return ResponseEntity.ok(service.findTo5Profiles());
+	}
 }

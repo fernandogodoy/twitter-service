@@ -10,10 +10,13 @@ import lombok.NoArgsConstructor;
  *
  */
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
-public class HashtagRequestTDTO {
+@AllArgsConstructor
+@NoArgsConstructor
+public class TopUserFollowerCountDTO {
 
-	private String hashtag;
+	private Integer profileFollowersCount;
+
+	private String profileName;
+
 }
