@@ -1,7 +1,5 @@
 package br.com.twtter.filter.service;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -12,8 +10,6 @@ import static org.mockito.Mockito.verify;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
@@ -34,7 +30,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.github.javafaker.Faker;
 
 import br.com.twtter.filter.config.ModelMapperConfig;
-import br.com.twtter.filter.dto.TopUserFollowerCountDTO;
 import br.com.twtter.filter.entity.Hashtag;
 import br.com.twtter.filter.mapper.TweetMapper;
 import br.com.twtter.filter.repository.HashtagRepository;
@@ -56,13 +51,13 @@ class TweetServiceTest {
 	private HashtagRepository hashtagRepository;
 
 	@MockBean
+	private TwitterProfileRepository twitterProfileRepository;
+
+	@MockBean
 	private Twitter twitterApi;
 
 	@MockBean
 	private TweetRepository tweetRepository;
-	
-	@MockBean
-	private TwitterProfileRepository twitterProfileRepository;
 
 	@MockBean
 	private SearchOperations searchOperation;
@@ -87,21 +82,6 @@ class TweetServiceTest {
 	}
 
 	@Test
-	void shouldReturnTopUser() {
-		LinkedList<br.com.twtter.filter.entity.TwitterProfile> tweets = new LinkedList<>();
-		tweets.add(newTweet("1 follower", 1));
-		tweets.add(newTweet("2 follower2", 2));
-		given(twitterProfileRepository.findTop5ByOrderByProfileFollowersCountDesc())
-				.willReturn(tweets);
-
-		List<TopUserFollowerCountDTO> to5Profiles = service.findTo5Profiles();
-		assertThat(to5Profiles.get(0).getProfileFollowersCount(), equalTo(1));
-		assertThat(to5Profiles.get(0).getProfileName(), equalTo("1 follower"));
-		assertThat(to5Profiles.get(1).getProfileFollowersCount(), equalTo(2));
-		assertThat(to5Profiles.get(1).getProfileName(), equalTo("2 follower2"));
-	}
-
-	@Test
 	void shouldReturnGroupedByTime() {
 		LocalDateTime now = LocalDateTime.now();
 		br.com.twtter.filter.entity.Tweet tweet1 = br.com.twtter.filter.entity.Tweet.builder()
@@ -112,15 +92,8 @@ class TweetServiceTest {
 				.build();
 
 		given(tweetRepository.findAll()).willReturn(Arrays.asList(tweet1, tweet1, tweet3));
-		
-		service.groupedByTime();
-	}
 
-	private br.com.twtter.filter.entity.TwitterProfile newTweet(String profileName, Integer followers) {
-		return br.com.twtter.filter.entity.TwitterProfile.builder()
-				.profileName(profileName)
-				.profileFollowersCount(followers)
-				.build();
+		service.groupedByTime();
 	}
 
 	private Tweet newTweet() {
