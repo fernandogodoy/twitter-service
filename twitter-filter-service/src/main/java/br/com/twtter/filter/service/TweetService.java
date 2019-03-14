@@ -43,7 +43,7 @@ public class TweetService {
 	@Autowired
 	private TweetRepository twitterRepository;
 
-	@Scheduled(fixedRate = 3600000)
+	@Scheduled(fixedRate = 900000)
 	public void loadTwitters() {
 		log.info("Iniciando busca por novos tweets");
 
@@ -77,7 +77,7 @@ public class TweetService {
 					.forEach(tweet -> tweets.add(mapper.toEntity(tweet, hashtag)));
 		});
 		return tweets;
-	}
+	}	
 
 	public List<TweetDTO> findAll() {
 		ModelMapper mapper = new ModelMapper();
