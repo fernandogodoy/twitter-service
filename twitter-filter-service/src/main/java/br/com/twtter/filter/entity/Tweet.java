@@ -50,6 +50,21 @@ public class Tweet implements BaseEntity {
 	@ManyToOne
 	private Hashtag hashtag;
 
+	public String getLanguage() {
+		return profile.getProfileLanguage();
+	}
+	
+	@Getter
+	@EqualsAndHashCode
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class GroupedByHashTag{
+		
+		private String profileLanguage;
+		
+		private String hashTag;
+	}
+
 	@Override
 	public String toString() {
 		ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.JSON_STYLE);
