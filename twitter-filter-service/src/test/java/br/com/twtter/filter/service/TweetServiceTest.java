@@ -1,35 +1,26 @@
 package br.com.twtter.filter.service;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.verify;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.social.twitter.api.SearchMetadata;
 import org.springframework.social.twitter.api.SearchOperations;
-import org.springframework.social.twitter.api.SearchResults;
-import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
-import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.github.javafaker.Faker;
-
 import br.com.twtter.filter.config.ModelMapperConfig;
+import br.com.twtter.filter.dto.HashtagLanguageDTO;
+import br.com.twtter.filter.dto.TweetTimeDTO;
 import br.com.twtter.filter.entity.Hashtag;
 import br.com.twtter.filter.mapper.TweetMapper;
 import br.com.twtter.filter.repository.HashtagRepository;
@@ -43,9 +34,6 @@ class TweetServiceTest {
 
 	@Autowired
 	private TweetService service;
-
-	@Autowired
-	private TweetMapper mapper;
 
 	@MockBean
 	private HashtagRepository hashtagRepository;
@@ -63,25 +51,6 @@ class TweetServiceTest {
 	private SearchOperations searchOperation;
 
 	@Test
-	void shouldSaveTweets() {
-
-		Tweet tweet = newTweet();
-		br.com.twtter.filter.entity.Tweet tweetEntity = mapper.toEntity(tweet);
-		tweetEntity.setId(1l);
-
-		given(hashtagRepository.findAll()).willReturn(Arrays.asList(new Hashtag("Valor")));
-
-		given(twitterApi.searchOperations()).willReturn(searchOperation);
-		given(tweetRepository.findByHashtag(ArgumentMatchers.any())).willReturn(Arrays.asList(tweetEntity));
-		given(searchOperation.search(anyString(), anyInt()))
-				.willReturn(new SearchResults(Arrays.asList(tweet, newTweet()), new SearchMetadata(1, 1)));
-
-		service.loadTwitters();
-
-		verify(tweetRepository, atLeast(1)).saveAll(any());
-	}
-
-	@Test
 	void shouldReturnGroupedByTime() {
 		LocalDateTime now = LocalDateTime.now();
 		br.com.twtter.filter.entity.Tweet tweet1 = br.com.twtter.filter.entity.Tweet.builder()
@@ -93,42 +62,29 @@ class TweetServiceTest {
 
 		given(tweetRepository.findAll()).willReturn(Arrays.asList(tweet1, tweet1, tweet3));
 
-		service.groupedByTime();
+		List<TweetTimeDTO> groupedBy = service.groupedByTime();
+		assertThat(groupedBy.size(), Matchers.equalTo(2));
 	}
 
-	private Tweet newTweet() {
-		final Tweet tweet = tweet();
-		tweetProfile(tweet);
-		return tweet;
-	}
+	@Test
+	void shouldReturnGroupedByLanguage() {
+		LocalDateTime now = LocalDateTime.now();
+		br.com.twtter.filter.entity.Tweet tweet1 = br.com.twtter.filter.entity.Tweet.builder()
+				.createdAt(now)
+				.hashtag(new Hashtag("open"))
+				.profile(br.com.twtter.filter.entity.TwitterProfile.builder().profileLanguage("pt").build())
+				.build();
+		br.com.twtter.filter.entity.Tweet tweet3 = br.com.twtter.filter.entity.Tweet.builder()
+				.createdAt(now.plusHours(2))
+				.hashtag(new Hashtag("open"))
+				.profile(br.com.twtter.filter.entity.TwitterProfile.builder().profileLanguage("en").build())
+				.build();
 
-	private void tweetProfile(final Tweet tweet) {
-		final Faker faker = new Faker();
-		final long id = faker.random().nextLong();
-		final String screenName = faker.superhero().descriptor();
-		final String name = faker.superhero().name();
-		final String profileImageUrl = faker.avatar().image();
-		final String url = faker.company().url();
-		final String descriptor = faker.superhero().descriptor();
-		final String location = faker.address().city();
-		final Date createdAt = faker.date().past(1, TimeUnit.DAYS);
-		tweet.setUser(new TwitterProfile(id, screenName, name, url, profileImageUrl, descriptor, location, createdAt));
-	}
+		given(tweetRepository.findAll()).willReturn(Arrays.asList(tweet1, tweet1, tweet3));
 
-	private Tweet tweet() {
-		final Faker faker = new Faker();
-		final Long id = faker.random().nextLong();
-		final String text = faker.shakespeare().hamletQuote();
-		final Date createdAt = faker.date().past(1, TimeUnit.DAYS);
-		final String fromUser = faker.artist().name();
-		final String profileImageUrl = faker.avatar().image();
-		final Long toUserId = faker.random().nextLong();
-		final Long fromUserId = faker.random().nextLong();
-		final String languageCode = "pt";
-		final String source = faker.company().url();
-		final Tweet tweet = new Tweet(id, text, createdAt, fromUser, profileImageUrl, toUserId, fromUserId,
-				languageCode, source);
-		return tweet;
+		List<HashtagLanguageDTO> groupedBy = service.groupedByLanguage();
+		System.out.println(groupedBy);
+		assertThat(groupedBy.size(), Matchers.equalTo(2));
 	}
 
 }

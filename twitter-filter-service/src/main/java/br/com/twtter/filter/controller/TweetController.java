@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.twtter.filter.dto.HashtagLanguageDTO;
 import br.com.twtter.filter.dto.TweetDTO;
+import br.com.twtter.filter.dto.TweetTimeDTO;
 import br.com.twtter.filter.service.TweetService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-@RequestMapping("/tweet")
+@RequestMapping("/tweet")	
 public class TweetController {
 
 	@Autowired
@@ -30,6 +32,18 @@ public class TweetController {
 	public ResponseEntity<List<TweetDTO>> findAll() {
 		log.info("Listando tweets");
 		return ResponseEntity.ok(service.findAll());
+	}
+	
+	@GetMapping(path = "/list/grouped-time", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<TweetTimeDTO>> findGroupedBuTime() {
+		log.info("Listando tweets agrupados por time");
+		return ResponseEntity.ok(service.groupedByTime());
+	}
+
+	@GetMapping(path = "/list/grouped-language", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<HashtagLanguageDTO>> findGroupedByLanguage() {
+		log.info("Listando tweets agrupados por time");
+		return ResponseEntity.ok(service.groupedByLanguage());
 	}
 
 	
