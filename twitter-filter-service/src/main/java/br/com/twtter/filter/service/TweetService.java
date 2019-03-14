@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Service;
 
+import br.com.twtter.filter.dto.TopUserFollowerCountDTO;
 import br.com.twtter.filter.dto.TweetDTO;
 import br.com.twtter.filter.entity.Hashtag;
 import br.com.twtter.filter.entity.Tweet;
@@ -42,6 +43,9 @@ public class TweetService {
 
 	@Autowired
 	private TweetRepository twitterRepository;
+
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Scheduled(fixedRate = 900000)
 	public void loadTwitters() {
@@ -77,15 +81,20 @@ public class TweetService {
 					.forEach(tweet -> tweets.add(mapper.toEntity(tweet, hashtag)));
 		});
 		return tweets;
-	}	
+	}
 
 	public List<TweetDTO> findAll() {
-		ModelMapper mapper = new ModelMapper();
 		return twitterRepository.findAll(Sort.by(Direction.DESC, "id"))
 				.stream()
-				.map(tweet -> mapper.map(tweet, TweetDTO.class))
+				.map(tweet -> modelMapper.map(tweet, TweetDTO.class))
 				.collect(Collectors.toList());
+	}
 
+	public List<TopUserFollowerCountDTO> findTo5Profiles() {
+		return twitterRepository.findTop5ByOrderByProfileFollowersCountDesc()
+				.stream()
+				.map(tweet -> modelMapper.map(tweet, TopUserFollowerCountDTO.class))
+				.collect(Collectors.toList());
 	}
 
 }

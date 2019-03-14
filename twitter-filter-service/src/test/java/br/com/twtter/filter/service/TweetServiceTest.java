@@ -1,5 +1,7 @@
 package br.com.twtter.filter.service;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -9,6 +11,8 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
@@ -17,6 +21,7 @@ import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.social.twitter.api.SearchMetadata;
 import org.springframework.social.twitter.api.SearchOperations;
 import org.springframework.social.twitter.api.SearchResults;
@@ -27,18 +32,21 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.github.javafaker.Faker;
 
+import br.com.twtter.filter.config.ModelMapperConfig;
+import br.com.twtter.filter.dto.TopUserFollowerCountDTO;
 import br.com.twtter.filter.entity.Hashtag;
 import br.com.twtter.filter.mapper.TweetMapper;
 import br.com.twtter.filter.repository.HashtagRepository;
 import br.com.twtter.filter.repository.TweetRepository;
 
 @ExtendWith(SpringExtension.class)
+@Import(ModelMapperConfig.class)
 @SpringBootTest(classes = { TweetService.class, TweetMapper.class })
 class TweetServiceTest {
 
 	@Autowired
 	private TweetService service;
-	
+
 	@Autowired
 	private TweetMapper mapper;
 
@@ -60,7 +68,7 @@ class TweetServiceTest {
 		Tweet tweet = newTweet();
 		br.com.twtter.filter.entity.Tweet tweetEntity = mapper.toEntity(tweet);
 		tweetEntity.setId(1l);
-		
+
 		given(hashtagRepository.findAll()).willReturn(Arrays.asList(new Hashtag("Valor")));
 
 		given(twitterApi.searchOperations()).willReturn(searchOperation);
@@ -69,8 +77,30 @@ class TweetServiceTest {
 				.willReturn(new SearchResults(Arrays.asList(tweet, newTweet()), new SearchMetadata(1, 1)));
 
 		service.loadTwitters();
-		
+
 		verify(tweetRepository, atLeast(1)).saveAll(any());
+	}
+
+	@Test
+	void shouldReturnTopUser() {
+		LinkedList<br.com.twtter.filter.entity.Tweet> tweets = new LinkedList<>();
+		tweets.add(newTweet("1 follower", 1));
+		tweets.add(newTweet("2 follower2", 2));
+		given(tweetRepository.findTop5ByOrderByProfileFollowersCountDesc())
+				.willReturn(tweets);
+
+		List<TopUserFollowerCountDTO> to5Profiles = service.findTo5Profiles();
+		assertThat(to5Profiles.get(0).getProfileFollowersCount(), equalTo(1));
+		assertThat(to5Profiles.get(0).getProfileName(), equalTo("1 follower"));
+		assertThat(to5Profiles.get(1).getProfileFollowersCount(), equalTo(2));
+		assertThat(to5Profiles.get(1).getProfileName(), equalTo("2 follower2"));
+	}
+
+	private br.com.twtter.filter.entity.Tweet newTweet(String profileName, Integer followers) {
+		return br.com.twtter.filter.entity.Tweet.builder()
+				.profileName(profileName)
+				.profileFollowersCount(followers)
+				.build();
 	}
 
 	private Tweet newTweet() {
@@ -103,7 +133,8 @@ class TweetServiceTest {
 		final Long fromUserId = faker.random().nextLong();
 		final String languageCode = "pt";
 		final String source = faker.company().url();
-		final Tweet tweet = new Tweet(id, text, createdAt, fromUser, profileImageUrl, toUserId, fromUserId, languageCode, source);
+		final Tweet tweet = new Tweet(id, text, createdAt, fromUser, profileImageUrl, toUserId, fromUserId,
+				languageCode, source);
 		return tweet;
 	}
 
