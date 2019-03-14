@@ -47,9 +47,7 @@ public class TweetService {
 				.stream()
 				.map(Tweet::getCreatedAt)
 				.collect(Collectors.groupingBy(LocalDateTime::getHour, Collectors.counting()))
-				.forEach((key, value) -> {
-					tweetTimeDTOs.add(new TweetTimeDTO(LocalTime.of(key, 0), value));
-				});
+				.forEach((key, value) -> tweetTimeDTOs.add(new TweetTimeDTO(LocalTime.of(key, 0), value)));
 		return tweetTimeDTOs;
 	}
 
@@ -59,9 +57,7 @@ public class TweetService {
 				.stream()
 				.map(tweet -> new GroupedByHashTag(tweet.getLanguage(), tweet.getHashtag().getHashTag()))
 				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-				.forEach((key, value) ->{
-					hashtagsLanguage.add(new HashtagLanguageDTO(key.getHashTag(), key.getProfileLanguage(), value));
-				});
+				.forEach((key, value) -> hashtagsLanguage.add(new HashtagLanguageDTO(key.getHashTag(), key.getProfileLanguage(), value)));
 		return hashtagsLanguage;
 	}
 
