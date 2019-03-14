@@ -9,6 +9,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
@@ -38,6 +39,7 @@ import br.com.twtter.filter.entity.Hashtag;
 import br.com.twtter.filter.mapper.TweetMapper;
 import br.com.twtter.filter.repository.HashtagRepository;
 import br.com.twtter.filter.repository.TweetRepository;
+import br.com.twtter.filter.repository.TwitterProfileRepository;
 
 @ExtendWith(SpringExtension.class)
 @Import(ModelMapperConfig.class)
@@ -58,6 +60,9 @@ class TweetServiceTest {
 
 	@MockBean
 	private TweetRepository tweetRepository;
+	
+	@MockBean
+	private TwitterProfileRepository twitterProfileRepository;
 
 	@MockBean
 	private SearchOperations searchOperation;
@@ -83,10 +88,10 @@ class TweetServiceTest {
 
 	@Test
 	void shouldReturnTopUser() {
-		LinkedList<br.com.twtter.filter.entity.Tweet> tweets = new LinkedList<>();
+		LinkedList<br.com.twtter.filter.entity.TwitterProfile> tweets = new LinkedList<>();
 		tweets.add(newTweet("1 follower", 1));
 		tweets.add(newTweet("2 follower2", 2));
-		given(tweetRepository.findTop5ByOrderByProfileFollowersCountDesc())
+		given(twitterProfileRepository.findTop5ByOrderByProfileFollowersCountDesc())
 				.willReturn(tweets);
 
 		List<TopUserFollowerCountDTO> to5Profiles = service.findTo5Profiles();
@@ -96,8 +101,23 @@ class TweetServiceTest {
 		assertThat(to5Profiles.get(1).getProfileName(), equalTo("2 follower2"));
 	}
 
-	private br.com.twtter.filter.entity.Tweet newTweet(String profileName, Integer followers) {
-		return br.com.twtter.filter.entity.Tweet.builder()
+	@Test
+	void shouldReturnGroupedByTime() {
+		LocalDateTime now = LocalDateTime.now();
+		br.com.twtter.filter.entity.Tweet tweet1 = br.com.twtter.filter.entity.Tweet.builder()
+				.createdAt(now)
+				.build();
+		br.com.twtter.filter.entity.Tweet tweet3 = br.com.twtter.filter.entity.Tweet.builder()
+				.createdAt(now.plusHours(2))
+				.build();
+
+		given(tweetRepository.findAll()).willReturn(Arrays.asList(tweet1, tweet1, tweet3));
+		
+		service.groupedByTime();
+	}
+
+	private br.com.twtter.filter.entity.TwitterProfile newTweet(String profileName, Integer followers) {
+		return br.com.twtter.filter.entity.TwitterProfile.builder()
 				.profileName(profileName)
 				.profileFollowersCount(followers)
 				.build();

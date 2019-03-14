@@ -1,12 +1,16 @@
 package br.com.twtter.filter.mapper;
 
 import java.time.ZoneId;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Component;
 
 import br.com.twtter.filter.entity.Hashtag;
 import br.com.twtter.filter.entity.Tweet.TweetBuilder;
+import br.com.twtter.filter.entity.TwitterProfile;
+import br.com.twtter.filter.repository.TwitterProfileRepository;
 
 /**
  * 
@@ -16,19 +20,38 @@ import br.com.twtter.filter.entity.Tweet.TweetBuilder;
 @Component
 public class TweetMapper implements GenericMapper<br.com.twtter.filter.entity.Tweet, Tweet> {
 
+	@Autowired
+	private TwitterProfileRepository twitterProfileRepository;
+
 	@Override
 	public br.com.twtter.filter.entity.Tweet toEntity(Tweet from) {
 		return builder(from).build();
 	}
 
 	private TweetBuilder builder(Tweet from) {
+		TwitterProfile twitterProfile = updateOrCreateProfile(from);
+
 		return br.com.twtter.filter.entity.Tweet.builder()
 				.createdAt(from.getCreatedAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
-				.profileFollowersCount(from.getUser().getFollowersCount())
-				.profileLanguage(from.getUser().getLanguage())
-				.profileUserLocation(from.getUser().getLocation())
-				.profileName(from.getUser().getName())
+				.profile(twitterProfile)
 				.text(from.getUnmodifiedText());
+	}
+
+	private TwitterProfile updateOrCreateProfile(Tweet from) {
+		TwitterProfile twitterProfile = null;
+		Optional<TwitterProfile> optTwitterProfile = twitterProfileRepository.findByProfileName(from.getUser().getName());
+		if (optTwitterProfile.isPresent()) {
+			twitterProfile = optTwitterProfile.get();
+			twitterProfile.updateFollowerCount(from.getUser().getFollowersCount());
+		} else {
+			twitterProfile = TwitterProfile.builder()
+					.profileFollowersCount(from.getUser().getFollowersCount())
+					.profileLanguage(from.getUser().getLanguage())
+					.profileName(from.getUser().getName())
+					.profileUserLocation(from.getUser().getLocation())
+					.build();
+		}
+		return twitterProfile;
 	}
 
 	@Override
@@ -36,7 +59,7 @@ public class TweetMapper implements GenericMapper<br.com.twtter.filter.entity.Tw
 		throw new IllegalStateException();
 	}
 
-	public br.com.twtter.filter.entity.Tweet  toEntity(Tweet tweet, Hashtag hashtag) {
+	public br.com.twtter.filter.entity.Tweet toEntity(Tweet tweet, Hashtag hashtag) {
 		TweetBuilder tweetBuilder = builder(tweet);
 		return tweetBuilder.hashtag(hashtag).build();
 	}

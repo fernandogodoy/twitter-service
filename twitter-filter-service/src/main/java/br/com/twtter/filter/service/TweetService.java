@@ -1,5 +1,8 @@
 package br.com.twtter.filter.service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -16,11 +19,13 @@ import org.springframework.stereotype.Service;
 
 import br.com.twtter.filter.dto.TopUserFollowerCountDTO;
 import br.com.twtter.filter.dto.TweetDTO;
+import br.com.twtter.filter.dto.TweetTimeDTO;
 import br.com.twtter.filter.entity.Hashtag;
 import br.com.twtter.filter.entity.Tweet;
 import br.com.twtter.filter.mapper.TweetMapper;
 import br.com.twtter.filter.repository.HashtagRepository;
 import br.com.twtter.filter.repository.TweetRepository;
+import br.com.twtter.filter.repository.TwitterProfileRepository;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -42,7 +47,10 @@ public class TweetService {
 	private TweetMapper mapper;
 
 	@Autowired
-	private TweetRepository twitterRepository;
+	private TweetRepository tweetRepository;
+	
+	@Autowired
+	private TwitterProfileRepository twitterProfileRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -63,12 +71,12 @@ public class TweetService {
 		removeDuplicates(hashTags, tweets);
 		log.info("Restante apos remocao de duplicados: " + tweets.size());
 
-		twitterRepository.saveAll(tweets);
+		tweetRepository.saveAll(tweets);
 	}
 
 	private void removeDuplicates(List<Hashtag> hashTags, Set<Tweet> tweets) {
 		hashTags.forEach(hashTag -> {
-			List<Tweet> savedTweets = twitterRepository.findByHashtag(hashTag);
+			List<Tweet> savedTweets = tweetRepository.findByHashtag(hashTag);
 			tweets.removeIf(tweet -> savedTweets.contains(tweet));
 		});
 	}
@@ -84,17 +92,29 @@ public class TweetService {
 	}
 
 	public List<TweetDTO> findAll() {
-		return twitterRepository.findAll(Sort.by(Direction.DESC, "id"))
+		return tweetRepository.findAll(Sort.by(Direction.DESC, "id"))
 				.stream()
 				.map(tweet -> modelMapper.map(tweet, TweetDTO.class))
 				.collect(Collectors.toList());
 	}
 
 	public List<TopUserFollowerCountDTO> findTo5Profiles() {
-		return twitterRepository.findTop5ByOrderByProfileFollowersCountDesc()
+		return twitterProfileRepository.findTop5ByOrderByProfileFollowersCountDesc()
 				.stream()
 				.map(tweet -> modelMapper.map(tweet, TopUserFollowerCountDTO.class))
 				.collect(Collectors.toList());
+	}
+
+	public List<TweetTimeDTO> groupedByTime() {
+		List<TweetTimeDTO> tweetTimeDTOs = new ArrayList<>();
+		tweetRepository.findAll()
+				.stream()
+				.map(Tweet::getCreatedAt)
+				.collect(Collectors.groupingBy(LocalDateTime::getHour, Collectors.counting()))
+				.forEach((key, value) -> {
+					tweetTimeDTOs.add(new TweetTimeDTO(LocalTime.of(key, 0), value));
+				});
+		return tweetTimeDTOs;
 	}
 
 }

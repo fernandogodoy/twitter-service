@@ -1,13 +1,9 @@
 package br.com.twtter.filter.entity;
 
-import java.time.LocalDateTime;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -18,46 +14,42 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-/**
- * 
- * @author Fernando
- *
- */
 @Getter
 @Entity
 @Builder
 @AllArgsConstructor
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode(exclude = { "hashtag", "id" })
-public class Tweet implements BaseEntity {
+public class TwitterProfile implements BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Setter
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String text;
+	private String profileName;
 
-	private LocalDateTime createdAt;
+	private Integer profileFollowersCount;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	private TwitterProfile profile;
+	private String profileUserLocation;
 
-	@ManyToOne
-	private Hashtag hashtag;
+	private String profileLanguage;
 
 	@Override
 	public String toString() {
 		ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.JSON_STYLE);
 		builder.append("id", id);
-		builder.append("text", text);
-		builder.append("createdAt", createdAt);
-		builder.append("hashtag", hashtag);
+		builder.append("profileName", profileName);
+		builder.append("profileFollowersCount", profileFollowersCount);
+		builder.append("profileUserLocation", profileUserLocation);
+		builder.append("profileLanguage", profileLanguage);
 		return builder.toString();
+	}
+
+	public void updateFollowerCount(int followersCount) {
+		this.profileFollowersCount = followersCount;
 	}
 
 }
