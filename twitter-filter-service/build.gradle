@@ -18,6 +18,7 @@ ext{
 	commonsLangVersion = '3.8.1'
 	modelMapperVersion = '2.3.2'
 	postgreSQLVersion = '9.4-1200-jdbc41'
+	springFoxSwagger = '2.9.2'
 }
 
 apply plugin: 'java'
@@ -39,6 +40,9 @@ dependencies {
 	compile("org.springframework.social:spring-social-security:${springSocialVersion}")
 	compile("org.apache.commons:commons-lang3:${commonsLangVersion}")
 	
+	compile("io.springfox:springfox-swagger2:${springFoxSwagger}")
+	compile("io.springfox:springfox-swagger-ui:${springFoxSwagger}")
+	compile("io.springfox:springfox-bean-validators:${springFoxSwagger}")
 	
 	compile("org.modelmapper:modelmapper:${modelMapperVersion}")
 	compile("org.postgresql:postgresql:${postgreSQLVersion}") 
