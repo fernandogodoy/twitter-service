@@ -2,9 +2,14 @@ buildscript {
     repositories {
         mavenCentral()
         jcenter()
+		maven{
+			url "https://plugins.gradle.org/m2/"
+		}
+		
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE")
+        classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
     }
 }
 
@@ -19,17 +24,20 @@ ext{
 	modelMapperVersion = '2.3.2'
 	postgreSQLVersion = '9.4-1200-jdbc41'
 	springFoxSwagger = '2.9.2'
+	
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: "com.moowork.node"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
+ 	annotationProcessor("org.projectlombok:lombok:$lombokVersion")
 	compileOnly("org.projectlombok:lombok:${lombokVersion}")
 
 	compile("org.springframework.boot:spring-boot-starter-web")
@@ -65,4 +73,10 @@ repositories {
 test {
     useJUnitPlatform()
 }    
+
+task appNpmInstall(type: NpmTask) {
+    description = "Installs dependencies from package.json"
+    workingDir = file("${project.projectDir}/src/main/resources/twitter-service-app")
+    args = ['install']
+}
     
