@@ -1,0 +1,24 @@
+server:
+   port:    8080
+
+spring:
+   application:
+      name: twitter-filter-service
+   datasource:
+      driverClassName: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/twitterservicedb
+      username: postgres
+      password: postgres
+   jpa:
+      properties: 
+         hibernate: 
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+         ddl-auto: update 
+   
+
+twitter:
+   consumerKey: EG8GNL0nP2LWW38FqDZN8UBJo 
+   consumerSecret: P0lBGq1POMXXvWEn5IBgO3FimdTRtr9ywYgvVm0AIwcJrhIK2U
+   default-hashtags: openbanking, apifirst, devops, cloudfirst, microservices, apigateway, oauth, swagger, raml, openapis
+   
