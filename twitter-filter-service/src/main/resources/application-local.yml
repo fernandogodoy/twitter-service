@@ -4,17 +4,19 @@ server:
 spring:
    application:
       name: twitter-filter-service
-   datasource:
-      driverClassName: org.postgresql.Driver
-      url: jdbc:postgresql://localhost:5432/twitterservicedb
-      username: postgres
-      password: postgres
+   datasource: 
+      driverClassName: org.h2.Driver
+      url: jdbc:h2:mem:twitter-db;DB_CLOSE_DELAY=-1
+      username: sa
+      password: sa
    jpa:
-      properties: 
-         hibernate: 
-            dialect: org.hibernate.dialect.PostgreSQLDialect
+      database-platform: org.hibernate.dialect.H2Dialect
       hibernate:
-         ddl-auto: update 
+         ddl-auto: create-drop 
+      properties:
+         hibernate:
+            format_sql: true
+      show-sql: true
    
 
 twitter:

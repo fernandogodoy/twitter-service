@@ -1,0 +1,17 @@
+allprojects  {
+	 apply plugin: 'eclipse'
+	 apply plugin: 'java'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+        mavenCentral();
+    }
+
+    dependencies {
+        testCompile("org.springframework.boot:spring-boot-starter-test:1.4.2.RELEASE")
+    }
+
+}
+
