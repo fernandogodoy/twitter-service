@@ -1,6 +1,6 @@
 package br.com.twtter.filter.api;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class TwitterFilterTest {
 	@Test
 	void shouldReturnTwitters() {
 		SearchResults searchResults = twitterFilter.searchOperations().search("#Openbanking", 5);
-		assertThat(searchResults.getTweets().size(), equalTo(5));
+		assertThat(searchResults.getTweets().size(), lessThanOrEqualTo(5));
 	}
 
 }

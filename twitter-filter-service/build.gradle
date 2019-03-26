@@ -2,14 +2,9 @@ buildscript {
     repositories {
         mavenCentral()
         jcenter()
-		maven{
-			url "https://plugins.gradle.org/m2/"
-		}
-		
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE")
-        classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
     }
 }
 
@@ -28,18 +23,22 @@ ext{
 }
 
 apply plugin: 'java'
+apply plugin: 'war'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: "com.moowork.node"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
+	implementation(project(':twitter-service-app'))
+}
+
+dependencies {
  	annotationProcessor("org.projectlombok:lombok:$lombokVersion")
 	compileOnly("org.projectlombok:lombok:${lombokVersion}")
-
+	
 	compile("org.springframework.boot:spring-boot-starter-web")
 	compile("org.springframework.boot:spring-boot-starter-logging")
 	compile("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -59,9 +58,8 @@ dependencies {
     testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 	testCompile("org.springframework.boot:spring-boot-starter-test")
 	
-	testCompile("com.h2database:h2:${h2DBVersion}")
+	compile("com.h2database:h2:${h2DBVersion}")
 	testCompile("com.github.javafaker:javafaker:${javaFakerVersion}")
-	
 	
 }
 
@@ -73,10 +71,8 @@ repositories {
 test {
     useJUnitPlatform()
 }    
-
-task appNpmInstall(type: NpmTask) {
-    description = "Installs dependencies from package.json"
-    workingDir = file("${project.projectDir}/src/main/resources/twitter-service-app")
-    args = ['install']
+bootRun {
+  args = ["--spring.profiles.active=local"]
 }
+
     
