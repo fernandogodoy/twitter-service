@@ -1,0 +1,19 @@
+<div class="jumbotron" style="background-color: #fff; height: calc(95vh);">
+    <h1> Lista de HashTags</h1>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let hashtag of hashtags">
+          <td> {{hashtag.id}}</td>
+          <td> {{hashtag.value}}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+
