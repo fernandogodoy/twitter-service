@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {TwitterServiceService} from '../service/twitter-service.service'
-import {HashTag} from '../model/hashtag'
 
 @Component({
   selector: 'app-hashtag-list',
@@ -14,6 +13,7 @@ export class HashtagListComponent implements OnInit {
   constructor(private twitterServiceService: TwitterServiceService) { }
 
   ngOnInit() {
+    console.log("Buscando Hashtags");
     this.twitterServiceService.getAllHashtags().subscribe(data => this.hashtags = data);
   }
 
