@@ -38,6 +38,8 @@ public class HashtagController {
 	@GetMapping(path = "/list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<List<HashtagResponseDTO>> findHashtags() {
 		log.info("Listando hashtags");
+		List<HashtagResponseDTO> hashtags = service.findAll();
+		log.info("Hashtags encontradas: " + hashtags.size());
 		return ResponseEntity.ok(service.findAll());
 	}
 	

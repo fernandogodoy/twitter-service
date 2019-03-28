@@ -11,6 +11,6 @@ export class TwitterServiceService {
 
 
   getAllHashtags() :  Observable<any> {
-    return this.http.get("//localhost:8080/hashtag/list");
+    return this.http.get("//localhost:4200/api/hashtag/list");
   }
 }
