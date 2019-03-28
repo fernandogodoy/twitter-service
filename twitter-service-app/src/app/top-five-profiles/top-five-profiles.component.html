@@ -1,0 +1,19 @@
+<div class="container" style="margin-top: 80px;">
+    <h1> Lista de Perfis com mais seguidores</h1>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Número de seguidores</th>
+          <th>Perfil</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let profile of topFiveProfiles">
+          <td> {{profile.profileFollowersCount}}</td>
+          <td> {{profile.profileName}}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+

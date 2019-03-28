@@ -69,7 +69,7 @@ class TwitterFilterJobTest {
 		tweetEntity.setId(1l);
 
 		given(hashtagRepository.findAll()).willReturn(Arrays.asList(new Hashtag("Valor")));
-
+		
 		given(twitterApi.searchOperations()).willReturn(searchOperation);
 		given(tweetRepository.findByHashtag(ArgumentMatchers.any())).willReturn(Arrays.asList(tweetEntity));
 		given(searchOperation.search(anyString(), anyInt()))

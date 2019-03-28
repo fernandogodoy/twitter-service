@@ -12,3 +12,7 @@ spring:
          hibernate:
             format_sql: true
       show-sql: true
+
+twitter:
+   consumerKey: 123 
+   consumerSecret: 741

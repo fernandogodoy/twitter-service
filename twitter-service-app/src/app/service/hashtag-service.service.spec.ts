@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TwitterServiceService } from './twitter-service.service';
+import { HashtagService } from './hashtag-service.service';
 
 describe('TwitterServiceService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: TwitterServiceService = TestBed.get(TwitterServiceService);
+    const service: HashtagService = TestBed.get(HashtagService);
     expect(service).toBeTruthy();
   });
 });

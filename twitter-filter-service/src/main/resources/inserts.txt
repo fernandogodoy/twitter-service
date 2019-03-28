@@ -1,0 +1,10 @@
+curl  --header "Content-type: application/json" --request POST --data '{"hashtag":"openbanking"}' http://localhost:8080/hashtag/save
+curl  --header "Content-type: application/json" --request POST --data '{"hashtag":"apifirst"}' http://localhost:8080/hashtag/save
+curl  --header "Content-type: application/json" --request POST --data '{"hashtag":"devops"}' http://localhost:8080/hashtag/save
+curl  --header "Content-type: application/json" --request POST --data '{"hashtag":"cloudfirst"}' http://localhost:8080/hashtag/save
+curl  --header "Content-type: application/json" --request POST --data '{"hashtag":"microservices"}' http://localhost:8080/hashtag/save
+curl  --header "Content-type: application/json" --request POST --data '{"hashtag":"apigateway"}' http://localhost:8080/hashtag/save
+curl  --header "Content-type: application/json" --request POST --data '{"hashtag":"oauth"}' http://localhost:8080/hashtag/save
+curl  --header "Content-type: application/json" --request POST --data '{"hashtag":"swagger"}' http://localhost:8080/hashtag/save
+curl  --header "Content-type: application/json" --request POST --data '{"hashtag":"raml"}' http://localhost:8080/hashtag/save
+curl  --header "Content-type: application/json" --request POST --data '{"hashtag":"openapis"}' http://localhost:8080/hashtag/save
