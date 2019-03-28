@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {TwitterServiceService} from '../service/twitter-service.service'
+import {HashtagService} from '../service/hashtag-service.service'
 
 @Component({
   selector: 'app-hashtag-list',
@@ -10,7 +10,7 @@ export class HashtagListComponent implements OnInit {
 
   hashtags :  Array<any>;
 
-  constructor(private twitterServiceService: TwitterServiceService) { }
+  constructor(private twitterServiceService: HashtagService) { }
 
   ngOnInit() {
     console.log("Buscando Hashtags");

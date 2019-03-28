@@ -2,7 +2,6 @@ package br.com.twtter.filter.entity;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -44,7 +43,7 @@ public class Tweet implements BaseEntity {
 
 	private LocalDateTime createdAt;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private TwitterProfile profile;
 
 	@ManyToOne

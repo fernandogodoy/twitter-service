@@ -3,7 +3,6 @@ package br.com.twtter.filter.api;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertThat;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +23,7 @@ class TwitterFilterTest {
 	@Autowired
 	private Twitter twitterFilter;
 
-	@Test
+//	@Test
 	void shouldReturnTwitters() {
 		SearchResults searchResults = twitterFilter.searchOperations().search("#Openbanking", 5);
 		assertThat(searchResults.getTweets().size(), lessThanOrEqualTo(5));

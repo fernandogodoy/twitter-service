@@ -5,12 +5,11 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class TwitterServiceService {
+export class TopFiveProfilesService {
 
   constructor(private http: HttpClient) { }
 
-
-  getAllHashtags() :  Observable<any> {
-    return this.http.get("//localhost:4200/api/hashtag/list");
+  getTopFiveProfiles() :  Observable<any> {
+    return this.http.get("//localhost:8080/twitter-profile/user-followers-count/top-5");
   }
 }

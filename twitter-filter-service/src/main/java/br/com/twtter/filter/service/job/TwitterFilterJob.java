@@ -34,7 +34,7 @@ public class TwitterFilterJob {
 	@Autowired
 	private TweetMapper mapper;
 
-	@Scheduled(fixedRate = 900000)
+	@Scheduled(fixedRate = 300000)
 	public void loadTwitters() {
 		log.info("Iniciando busca por novos tweets");
 

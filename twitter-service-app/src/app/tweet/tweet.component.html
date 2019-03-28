@@ -1,0 +1,21 @@
+<div class="container" style="margin-top: 80px;">
+    <h1> Contador de  Tweets Agrupado Hastag e Idioma</h1>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Hashtag</th>
+          <th>Idioma</th>
+          <th>Quantidade</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tweet of tweets">
+          <td> {{tweet.hashtag  }}</td>
+          <td> {{tweet.language}}</td>
+          <td> {{tweet.count}}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+

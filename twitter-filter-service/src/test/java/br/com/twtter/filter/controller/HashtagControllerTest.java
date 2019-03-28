@@ -22,7 +22,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import br.com.twtter.filter.controller.HashtagController;
 import br.com.twtter.filter.dto.HashtagResponseDTO;
 import br.com.twtter.filter.service.HashtagService;
 
