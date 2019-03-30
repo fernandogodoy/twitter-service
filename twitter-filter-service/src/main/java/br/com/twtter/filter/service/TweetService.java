@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.twtter.filter.dto.HashtagLanguageDTO;
@@ -35,7 +33,7 @@ public class TweetService {
 	private ModelMapper modelMapper;
 
 	public List<TweetDTO> findAll() {
-		return tweetRepository.findAll(Sort.by(Direction.DESC, "id"))
+		return tweetRepository.findAllTweets()
 				.stream()
 				.map(tweet -> modelMapper.map(tweet, TweetDTO.class))
 				.collect(Collectors.toList());

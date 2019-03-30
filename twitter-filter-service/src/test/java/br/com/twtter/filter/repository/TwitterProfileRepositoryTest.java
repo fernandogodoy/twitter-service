@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,8 +32,8 @@ class TwitterProfileRepositoryTest extends AbstractRepositoryContext {
 
 	@Test
 	void shouldFindByName() {
-		Optional<TwitterProfile> optional = repository.findByProfileName("User 1");
-		assertTrue(optional.isPresent());
+		TwitterProfile profile = repository.findByProfileName("User 1");
+		assertTrue(profile != null);
 	}
 	
 	@Test

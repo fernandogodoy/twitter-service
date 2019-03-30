@@ -59,8 +59,8 @@ class TweetControllerTest {
 				.createdAt(createdAt.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
 				.hashtagHashtag("Abc")
 				.id(id)
-				.profileFollowersCount(123)
-				.profileName(fromUser)
+				.profileProfileFollowersCount(123)
+				.profileProfileName(fromUser)
 				.build();
 
 		given(service.findAll()).willReturn(Arrays.asList(tweetDTO));

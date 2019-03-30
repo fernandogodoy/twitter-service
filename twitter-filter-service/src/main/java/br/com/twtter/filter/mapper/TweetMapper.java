@@ -1,7 +1,6 @@
 package br.com.twtter.filter.mapper;
 
 import java.time.ZoneId;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.Tweet;
@@ -38,12 +37,10 @@ public class TweetMapper implements GenericMapper<br.com.twtter.filter.entity.Tw
 	}
 
 	private TwitterProfile updateOrCreateProfile(Tweet from) {
-		TwitterProfile twitterProfile = null;
-		Optional<TwitterProfile> optTwitterProfile = twitterProfileRepository.findByProfileName(from.getUser().getName());
-		if (optTwitterProfile.isPresent()) {
-			twitterProfile = optTwitterProfile.get();
+		TwitterProfile twitterProfile = twitterProfileRepository.findByProfileName(from.getUser().getName());
+		if (twitterProfile != null) {
 			twitterProfile.updateFollowerCount(from.getUser().getFollowersCount());
-		} else {
+		}else {
 			twitterProfile = TwitterProfile.builder()
 					.profileFollowersCount(from.getUser().getFollowersCount())
 					.profileLanguage(from.getUser().getLanguage())
@@ -51,7 +48,7 @@ public class TweetMapper implements GenericMapper<br.com.twtter.filter.entity.Tw
 					.profileUserLocation(from.getUser().getLocation())
 					.build();
 		}
-		return twitterProfile;
+		return twitterProfileRepository.save(twitterProfile);
 	}
 
 	@Override

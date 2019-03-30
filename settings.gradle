@@ -1,0 +1,3 @@
+rootProject.name = 'twitter-service'
+
+include 'twitter-filter-service', 'twitter-service-app'
