@@ -6,5 +6,3 @@ deploy:
   app: twitter-filter-service
   api_key:
     secure: ${HEROKU_API_KEY}
-  file:
-    - twitter-filter-service/build/libs/twitter-filter-service.war

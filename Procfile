@@ -1,0 +1,1 @@
+web: java $JAVA_OPTS -jar twitter-filter-service/build/libs/twitter-filter-service.war
