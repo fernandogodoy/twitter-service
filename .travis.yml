@@ -1,6 +1,4 @@
 language: java
-before_install:
-- cd twitter-filter-service
 deploy:
   provider: heroku
   jdk:
