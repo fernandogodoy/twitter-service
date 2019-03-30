@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar twitter-filter-service/build/libs/twitter-filter-service.war --p $PORT
+web: java $JAVA_OPTS -jar twitter-filter-service/build/libs/twitter-filter-service.war -Dserver.port=$PORT
