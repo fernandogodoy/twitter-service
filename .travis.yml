@@ -1,4 +1,9 @@
 language: java
+branches:
+  only:
+    - master
+before_deploy:
+  - cd twitter-filter-service
 deploy:
   provider: heroku
   jdk:
