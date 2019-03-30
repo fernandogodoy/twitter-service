@@ -8,7 +8,7 @@ import { TweetComponent } from './tweet/tweet.component'
 
 
 const routes: Routes = [
-  {path: "/", pathMatch: "full", redirectTo: "home"},
+  {path: "", pathMatch: "full", redirectTo: "home"},
   {path: "home", component: HomeComponent},
   {path: "hashtag-list", component: HashtagListComponent},
   {path: "top-five-profiles", component: TopFiveProfilesComponent},
