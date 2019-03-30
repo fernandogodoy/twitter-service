@@ -7,3 +7,4 @@ twitter-filter-service/.project
 twitter-filter-service/.settings/
 twitter-filter-service/bin/
 /build/
+/bin/

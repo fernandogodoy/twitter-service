@@ -1,5 +1,5 @@
 server:
-   port: $PORT
+   port: ${PORT}
 
 spring:
    application:
@@ -14,7 +14,7 @@ spring:
          hibernate: 
             dialect: org.hibernate.dialect.PostgreSQLDialect
       hibernate:
-         ddl-auto: update 
+         ddl-auto: create-drop 
 
 twitter:
    consumerKey: EG8GNL0nP2LWW38FqDZN8UBJo 
