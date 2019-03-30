@@ -11,6 +11,6 @@ export class HashtagService {
 
 
   getAllHashtags() :  Observable<any> {
-    return this.http.get("//localhost:8080/hashtag/list");
+    return this.http.get("https://twitter-filter-service.herokuapp.com/hashtag/list");
   }
 }

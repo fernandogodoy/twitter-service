@@ -10,10 +10,10 @@ export class TweetService {
   constructor(private http: HttpClient) { }
 
   getByTime() :  Observable<any>{
-    return this.http.get("//localhost:8080/tweet/list/grouped-time");
+    return this.http.get("https://twitter-filter-service.herokuapp.com/tweet/list/grouped-time");
   }
 
   getByLanguage() :  Observable<any>{
-    return this.http.get("//localhost:8080/tweet/list/grouped-language");
+    return this.http.get("https://twitter-filter-service.herokuapp.com/tweet/list/grouped-language");
   }
 }
