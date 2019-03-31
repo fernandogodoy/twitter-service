@@ -17,7 +17,6 @@ spring:
          ddl-auto: none 
 
 twitter:
-   consumerKey: EG8GNL0nP2LWW38FqDZN8UBJo 
-   consumerSecret: P0lBGq1POMXXvWEn5IBgO3FimdTRtr9ywYgvVm0AIwcJrhIK2U
-   default-hashtags: openbanking, apifirst, devops, cloudfirst, microservices, apigateway, oauth, swagger, raml, openapis
+   consumerKey: ${TWITTER_CONSUMER_KEY} 
+   consumerSecret: ${TWITTER_CONSUMER_SECRET}
    
