@@ -83,12 +83,17 @@ class TweetServiceTest {
 				.hashtag(new Hashtag("open"))
 				.profile(br.com.twtter.filter.entity.TwitterProfile.builder().profileLanguage("en").build())
 				.build();
+		br.com.twtter.filter.entity.Tweet tweet4 = br.com.twtter.filter.entity.Tweet.builder()
+				.createdAt(now)
+				.hashtag(new Hashtag("api"))
+				.profile(br.com.twtter.filter.entity.TwitterProfile.builder().profileLanguage("pt").build())
+				.build();
 
-		given(tweetRepository.findAll()).willReturn(Arrays.asList(tweet1, tweet1, tweet3));
+		given(tweetRepository.findAll()).willReturn(Arrays.asList(tweet1, tweet4, tweet3, tweet1));
 
 		List<HashtagLanguageDTO> groupedBy = service.groupedByLanguage();
 		System.out.println(groupedBy);
-		assertThat(groupedBy.size(), Matchers.equalTo(2));
+		assertThat(groupedBy.size(), Matchers.equalTo(3));
 	}
 	
 	@Test

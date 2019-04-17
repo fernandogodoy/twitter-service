@@ -62,6 +62,15 @@ public class Tweet implements BaseEntity {
 		private String profileLanguage;
 		
 		private String hashTag;
+		
+		@Override
+		public String toString() {
+			ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.JSON_STYLE);
+			builder.append("profileLanguage", profileLanguage);
+			builder.append("hashTag", hashTag);
+			return builder.toString();
+		}
+		
 	}
 
 	@Override

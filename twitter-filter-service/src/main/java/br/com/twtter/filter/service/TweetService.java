@@ -3,6 +3,8 @@ package br.com.twtter.filter.service;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -55,7 +57,12 @@ public class TweetService {
 				.stream()
 				.map(tweet -> new GroupedByHashTag(tweet.getLanguage(), tweet.getHashtag().getHashTag()))
 				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-				.forEach((key, value) -> hashtagsLanguage.add(new HashtagLanguageDTO(key.getHashTag(), key.getProfileLanguage(), value)));
+				.forEach((key, value) -> hashtagsLanguage
+						.add(new HashtagLanguageDTO(key.getHashTag(), key.getProfileLanguage(), value)));
+		Collections.sort(hashtagsLanguage,
+				Comparator.comparing(HashtagLanguageDTO::getLanguage)
+						.thenComparing(HashtagLanguageDTO::getCount)
+						.thenComparing(HashtagLanguageDTO::getHashtag));
 		return hashtagsLanguage;
 	}
 
